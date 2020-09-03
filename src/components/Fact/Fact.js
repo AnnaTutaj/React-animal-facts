@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './fact.scss';
+import PropTypes from 'prop-types';
 
 export default class Fact extends Component {
     toggleInfo = () => {
@@ -12,22 +13,26 @@ export default class Fact extends Component {
         showInfo: false
     }
 
-
     render() {
-        const { id, name, img, scientific_name, likes, info } = this.props.fact;
+        const { id, name, img, scientific_name, likes, life_span, info } = this.props.fact;
         const { like } = this.props;
+
+        const noDataText = 'No data';
 
         return (
             <article className="fact">
                 <div className="img-container">
-                    <img src={img} alt="animal"/>
+                    <img src={img || "./img/dummy-animal.jpg"} alt="animal"/>
                 </div>
                 <div className="fact-info">
                     <p>
                         <strong>Common name: </strong><span>{name}</span>
                     </p>
                     <p>
-                        <strong>Scientific name: </strong><span>{scientific_name}</span>
+                        <strong>Scientific name: </strong><span>{scientific_name || noDataText}</span>
+                    </p>
+                    <p>
+                        <strong>Average life span in the wild: </strong><span>{life_span || noDataText}</span>
                     </p>
                     <hr />
                     <p>
@@ -48,4 +53,16 @@ export default class Fact extends Component {
             </article>
         )
     }
+}
+
+Fact.propTypes = {
+    fact: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+        img: PropTypes.string,
+        scientific_name: PropTypes.string,
+        likes: PropTypes.number,
+        life_span: PropTypes.string,
+        info: PropTypes.string,
+    })
 }
